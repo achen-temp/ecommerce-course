@@ -5,6 +5,7 @@ import com.ecommerce.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
 import java.util.Set;
 
 @Service
@@ -44,5 +45,20 @@ public class ProductService {
 
     public Set<Product> getProductByCategory(String category) {
         return repository.getProductByCategory(category);
+    }
+
+    public String recommendByCategory(String category) {
+        Set<Product> products = getProductByCategory(category);
+        Random random = new Random();
+        int temp = random.nextInt(products.size());
+
+        int i = 0;
+        for (Product p: products) {
+            if (i == temp) {
+                return p.toString();
+            }
+            i++;
+        }
+        return "";
     }
 }

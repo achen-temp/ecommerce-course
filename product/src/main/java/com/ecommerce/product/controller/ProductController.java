@@ -42,4 +42,9 @@ public class ProductController {
                 product -> product.getProductName().equalsIgnoreCase(name)
         ).findAny().orElse(null);
     }
+
+    @GetMapping("/product/recommend/{category}")
+    public String recommendProductByCategory(@PathVariable String category){
+        return service.recommendByCategory(category);
+    }
 }
