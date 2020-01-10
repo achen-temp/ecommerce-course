@@ -74,7 +74,7 @@ public class ShoppingService {
             }
 
             //step 2
-            double totalCost = unitPrice + amount;
+            double totalCost = unitPrice * amount;
             String accountUrl = "http://account-service/payment/" + totalCost;
             //ResponseEntity<String> responseEntity = restTemplate.exchange(accountUrl, HttpMethod.PUT, null,String.class);
             restTemplate.put(accountUrl, null);
@@ -93,9 +93,11 @@ public class ShoppingService {
         order.setTaxRate(0.0625);
         order.setOrderDate(new Timestamp(System.currentTimeMillis()));
 
-        //producer send order to product service and account service
+        //step 3 producer send order to product service and account service
         producer.updateProductInventory(this.convertJsonToString(order));
-//        producer.updateAccountOrderHistory(this.convertJsonToString(order));
+
+        //step 4
+        producer.updateAccountOrderHistory(this.convertJsonToString(order));
     }
 
     public String convertJsonToString(Object o) {

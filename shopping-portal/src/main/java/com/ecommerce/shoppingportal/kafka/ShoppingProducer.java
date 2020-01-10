@@ -12,6 +12,7 @@ public class ShoppingProducer {
     private final KafkaTemplate kafkaTemplate;
 
     private static final String PRODUCT_TOPIC = "cwymk76o-inventory";
+    private static final String ACCOUNT_TOPIC = "cwymk76o-inventory";
 
     @Autowired
     public ShoppingProducer(KafkaTemplate kafkaTemplate) {
@@ -23,9 +24,10 @@ public class ShoppingProducer {
         System.out.println("order sent to product service");
     }
 
-//    public void updateAccountOrderHistory(String  order) {
-//        return;
-//    }
+    public void updateAccountOrderHistory(String order) {
+        kafkaTemplate.send(ACCOUNT_TOPIC, order);
+        System.out.println("order sent to account service");
+    }
 
 //    @Bean
 //    public KafkaTemplate<String, String> kafkaTemplate() {
